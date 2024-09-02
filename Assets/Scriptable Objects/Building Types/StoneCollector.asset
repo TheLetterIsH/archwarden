@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8758227032f27fe4e9a4de5c3967e2d8, type: 3}
+  m_Name: StoneCollector
+  m_EditorClassIdentifier: 
+  buildingName: Stone Collector
+  prefab: {fileID: 5639499582284931668, guid: 92c2e4a3373abc54b938d8e90772d0fd, type: 3}
