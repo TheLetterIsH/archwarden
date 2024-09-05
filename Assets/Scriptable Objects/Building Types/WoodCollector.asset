@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingName: Wood Collector
   prefab: {fileID: 5639499582284931668, guid: f103b5318e4bec9478265d1a6e17ce74, type: 3}
+  resourceGeneratorData:
+    maxTime: 0.5
+    resourceType: {fileID: 11400000, guid: d850b1c1d31e4de4895ccbaee6a0c67e, type: 2}
+  sprite: {fileID: 21300000, guid: 73e27d81bb51fa74fb67b9f14b40a56b, type: 3}

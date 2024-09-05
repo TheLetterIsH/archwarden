@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class ResourceManager : MonoBehaviour {
 
     public static ResourceManager Instance { get; private set; }
+
+    public event EventHandler OnResourceAmountChanged;
 
     private Dictionary<ResourceTypeSO, int> resourceAmountDictionary;
 
@@ -18,13 +21,16 @@ public class ResourceManager : MonoBehaviour {
         foreach (ResourceTypeSO resourceType in resourceTypeList.list) {
             resourceAmountDictionary[resourceType] = 0;
         }
-
-        LogResourceAmountDictionary();
     }
 
     public void AddResource(ResourceTypeSO resourceType, int amount) {
         resourceAmountDictionary[resourceType] += amount;
-        LogResourceAmountDictionary();
+
+        OnResourceAmountChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public int GetResourceAmount(ResourceTypeSO resourceType) {
+        return resourceAmountDictionary[resourceType];
     }
 
     private void LogResourceAmountDictionary() {
