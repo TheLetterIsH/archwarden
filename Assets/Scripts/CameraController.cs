@@ -35,11 +35,11 @@ public class CameraController : MonoBehaviour {
         float zoomAmount = 2f;
         targetOrthographicSize += -Input.mouseScrollDelta.y * zoomAmount;
 
-        float minOrthographicSize = 10f;
-        float maxOrthographicSize = 40f;
+        float minOrthographicSize = 5f;
+        float maxOrthographicSize = 15f;
         targetOrthographicSize = Mathf.Clamp(targetOrthographicSize, minOrthographicSize, maxOrthographicSize);
 
-        float zoomSpeed = 5f;
+        float zoomSpeed = 20f;
         orthographicSize = Mathf.Lerp(orthographicSize, targetOrthographicSize, zoomSpeed * Time.deltaTime);
 
         cinemachineVirtualCamera.m_Lens.OrthographicSize = orthographicSize;

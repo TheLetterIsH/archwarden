@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8758227032f27fe4e9a4de5c3967e2d8, type: 3}
+  m_Name: Base
+  m_EditorClassIdentifier: 
+  buildingName: Base
+  prefab: {fileID: 5639499582284931668, guid: 51f722d413bd7d142afb079aa6179fcd, type: 3}
+  resourceGeneratorData:
+    maxTime: 2.5
+    resourceType: {fileID: 11400000, guid: 50a1d0921f813ae49b0b2ded8a2399de, type: 2}
+    resourceDetectionRadius: 1
+    maxResourceAmount: 1
+  sprite: {fileID: 21300000, guid: f7be37bf4c52944419af8b0d3485042c, type: 3}
+  minConstructionRadius: 0

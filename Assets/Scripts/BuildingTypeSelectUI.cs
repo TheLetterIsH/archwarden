@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class BuildingTypeSelectUI : MonoBehaviour {
 
+    [SerializeField] private List<BuildingTypeSO> ignoreBuildingTypeList;
     [SerializeField] private Sprite pointerSprite;
     [SerializeField] private float buttonWidth;
     [SerializeField] private float horizontalSpacing;
@@ -31,7 +32,11 @@ public class BuildingTypeSelectUI : MonoBehaviour {
             BuildingManager.Instance.SetActiveBuildingType(null);
         });
 
-        foreach (BuildingTypeSO buildingType in buildingTypeList.list) { 
+        foreach (BuildingTypeSO buildingType in buildingTypeList.list) {
+            if (ignoreBuildingTypeList.Contains(buildingType)) {
+                continue;
+            }
+
             Transform buildingTypeButtonTransform = Instantiate(buildingTypeButtonTemplate, transform);
             buildingTypeButtonTransform.gameObject.SetActive(true);
 
@@ -44,7 +49,7 @@ public class BuildingTypeSelectUI : MonoBehaviour {
             buildingTypeTransformDictionary[buildingType] = buildingTypeButtonTransform;
         }
 
-        int numberOfButtons = buildingTypeList.list.Count + 1;
+        int numberOfButtons = buildingTypeList.list.Count + 1 - ignoreBuildingTypeList.Count;
         float xOffset = (
              - buttonWidth * numberOfButtons
              - horizontalSpacing * (numberOfButtons - 1)

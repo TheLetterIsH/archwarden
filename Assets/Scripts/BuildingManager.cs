@@ -30,8 +30,8 @@ public class BuildingManager : MonoBehaviour {
 
     private void Update() {
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
-            if (activeBuildingType != null) {
-                Instantiate(activeBuildingType.prefab, Utils.GetMouseWorldPosition(), Quaternion.identity);
+            if (activeBuildingType != null && CanSpawnBuilding(activeBuildingType, Utils.GetSnappedMouseWorldPosition())) {
+                Instantiate(activeBuildingType.prefab, Utils.GetSnappedMouseWorldPosition(), Quaternion.identity);
             }
         }
     }
@@ -47,6 +47,43 @@ public class BuildingManager : MonoBehaviour {
 
     public BuildingTypeSO GetActiveBuildingType() { 
         return activeBuildingType;
+    }
+
+    private bool CanSpawnBuilding(BuildingTypeSO buildingType, Vector3 position) {
+        BoxCollider2D boxCollider2D = buildingType.prefab.GetComponent<BoxCollider2D>();
+
+        Collider2D[] collider2DArray = Physics2D.OverlapBoxAll(position, boxCollider2D.size, 0);
+
+        bool isAreaClear = collider2DArray.Length == 0;
+
+        if (!isAreaClear) {
+            return false;
+        }
+
+        collider2DArray = Physics2D.OverlapCircleAll(position, buildingType.minConstructionRadius);
+
+        foreach (Collider2D collider2D in collider2DArray) {
+            BuildingTypeHolder buildingTypeHolder = collider2D.GetComponent<BuildingTypeHolder>();
+
+            if (buildingTypeHolder != null) {
+                if (buildingTypeHolder.buildingType == buildingType) {
+                    return false;
+                }
+            }
+        }
+
+        float maxConstuctionRadius = 10f;
+        collider2DArray = Physics2D.OverlapCircleAll(position, maxConstuctionRadius);
+
+        foreach (Collider2D collider2D in collider2DArray) {
+            BuildingTypeHolder buildingTypeHolder = collider2D.GetComponent<BuildingTypeHolder>();
+
+            if (buildingTypeHolder != null) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
