@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Mana
   m_EditorClassIdentifier: 
   resourceName: Mana
+  resourceNameShort: M
   sprite: {fileID: 21300000, guid: 7a79670db9968544dbebdd2abff9238f, type: 3}
+  colorHex: 8C5EC6

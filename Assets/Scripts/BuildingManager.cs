@@ -30,8 +30,20 @@ public class BuildingManager : MonoBehaviour {
 
     private void Update() {
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
-            if (activeBuildingType != null && CanSpawnBuilding(activeBuildingType, Utils.GetSnappedMouseWorldPosition())) {
-                Instantiate(activeBuildingType.prefab, Utils.GetSnappedMouseWorldPosition(), Quaternion.identity);
+            if (activeBuildingType != null) {
+                if (CanSpawnBuilding(activeBuildingType, Utils.GetSnappedMouseWorldPosition(), out string errorMesssage)) {
+                    if (ResourceManager.Instance.CanAffordResources(activeBuildingType.constructionResourceCostArray)) {
+                        ResourceManager.Instance.SpendResources(activeBuildingType.constructionResourceCostArray);
+                    
+                        Instantiate(activeBuildingType.prefab, Utils.GetSnappedMouseWorldPosition(), Quaternion.identity);
+                    }
+                    else {
+                        TooltipUI.Instance.Show("Cannot afford " + activeBuildingType.GetConstructionResourceCostString(), new TooltipUI.TooltipTimer { timer = 1.5f });
+                    }
+                }
+                else {
+                    TooltipUI.Instance.Show(errorMesssage, new TooltipUI.TooltipTimer { timer = 1.5f });
+                }
             }
         }
     }
@@ -49,7 +61,7 @@ public class BuildingManager : MonoBehaviour {
         return activeBuildingType;
     }
 
-    private bool CanSpawnBuilding(BuildingTypeSO buildingType, Vector3 position) {
+    private bool CanSpawnBuilding(BuildingTypeSO buildingType, Vector3 position, out string errorMessage) {
         BoxCollider2D boxCollider2D = buildingType.prefab.GetComponent<BoxCollider2D>();
 
         Collider2D[] collider2DArray = Physics2D.OverlapBoxAll(position, boxCollider2D.size, 0);
@@ -57,6 +69,8 @@ public class BuildingManager : MonoBehaviour {
         bool isAreaClear = collider2DArray.Length == 0;
 
         if (!isAreaClear) {
+            errorMessage = "Cell is occupied!";
+
             return false;
         }
 
@@ -67,6 +81,7 @@ public class BuildingManager : MonoBehaviour {
 
             if (buildingTypeHolder != null) {
                 if (buildingTypeHolder.buildingType == buildingType) {
+                    errorMessage = "Close to another building of same type!";
                     return false;
                 }
             }
@@ -79,10 +94,12 @@ public class BuildingManager : MonoBehaviour {
             BuildingTypeHolder buildingTypeHolder = collider2D.GetComponent<BuildingTypeHolder>();
 
             if (buildingTypeHolder != null) {
+                errorMessage = "";
                 return true;
             }
         }
 
+        errorMessage = "Too far from other buildings!";
         return false;
     }
 
